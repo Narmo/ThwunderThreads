@@ -1,4 +1,6 @@
-# Thwunderthreads
+# ThwunderThreads
+
+<img src="icons/thwunderthreads.svg" width="64" height="64" alt="ThwunderThreads icon">
 
 Gmail-style conversations for Thunderbird 158+.
 

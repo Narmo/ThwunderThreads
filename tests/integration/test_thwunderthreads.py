@@ -569,7 +569,7 @@ class LifecycleTests(Base):
           return { name: addon.name, creator: addon.creator?.name, description: addon.description,
                    icon: icon.endsWith("icons/thwunderthreads.svg"), svg: (await response.text()).includes("<svg") };
         """)
-        self.assertEqual(meta["name"], "Thwunderthreads")
+        self.assertEqual(meta["name"], "ThwunderThreads")
         self.assertEqual(meta["creator"], "Nikita Denin")
         self.assertTrue(meta["description"].startswith("Gmail-style conversations"))
         self.assertTrue(meta["icon"] and meta["svg"], meta)

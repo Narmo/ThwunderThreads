@@ -1,4 +1,4 @@
-/* Thwunderthreads — the conversation in the message pane.
+/* ThwunderThreads — the conversation in the message pane.
  *
  * A chrome document inside about:3pane, filled by api.js through wtShow().
  * Collapsed messages are one-line summaries; every expanded message is a real

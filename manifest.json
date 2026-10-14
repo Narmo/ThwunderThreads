@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Thwunderthreads",
+  "name": "ThwunderThreads",
   "description": "Gmail-style conversations: one row per conversation in every message list, the whole conversation (replies, sent and archived mail, no duplicates) in the message pane.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Nikita Denin",
   "icons": {
     "64": "icons/thwunderthreads.svg"

@@ -1,4 +1,4 @@
-/* Thwunderthreads — Gmail-style conversations for Thunderbird.
+/* ThwunderThreads — Gmail-style conversations for Thunderbird.
  *
  * Privileged half of the add-on (a WebExtension Experiment, parent process):
  *  - a global conversation index over every mail folder of every account,
@@ -217,7 +217,7 @@ const indexMethods = {
     }
     this.ready = true;
     console.log(
-      `Thwunderthreads: indexed ${this.recs.size} messages in ${this.scanned.size} folders, ${Date.now() - start} ms`
+      `ThwunderThreads: indexed ${this.recs.size} messages in ${this.scanned.size} folders, ${Date.now() - start} ms`
     );
     refreshAll();
   },
@@ -302,7 +302,7 @@ function registerTerm(impl) {
     term = Cu.evalInSandbox(
       `({
         id: ${JSON.stringify(TERM_ID)},
-        name: "Conversation head (Thwunderthreads)",
+        name: "Conversation head (ThwunderThreads)",
         needsBody: false,
         impl: null,
         getEnabled() { return true; },
@@ -1145,7 +1145,7 @@ async function deleteMessages(recs, { permanent, rank, msgWindow }) {
   }
   if (safe.length < extras.length) {
     console.warn(
-      `Thwunderthreads: kept ${extras.length - safe.length} copies whose message isn't in the Trash yet`
+      `ThwunderThreads: kept ${extras.length - safe.length} copies whose message isn't in the Trash yet`
     );
   }
   if (safe.length) {

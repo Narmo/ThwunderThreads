@@ -1,4 +1,4 @@
-/* Thwunderthreads — conversation logic without any Thunderbird dependency,
+/* ThwunderThreads — conversation logic without any Thunderbird dependency,
  * shared by the add-on (api.js) and the unit tests (tests/unit). */
 
 // Reply and forward prefixes; Gmail ignores them when comparing subjects.
