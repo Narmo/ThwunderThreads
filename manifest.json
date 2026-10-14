@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Thwunderthreads",
+  "description": "Gmail-style conversations: one row per conversation in every message list, the whole conversation (replies, sent and archived mail, no duplicates) in the message pane.",
+  "version": "1.0.0",
+  "author": "Nikita Denin",
+  "icons": {
+    "64": "icons/thwunderthreads.svg"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "thwunderthreads@narmo",
+      "strict_min_version": "158.0"
+    }
+  },
+  "experiment_apis": {
+    "thwunderthreads": {
+      "schema": "schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["thwunderthreads"]],
+        "script": "api.js",
+        "events": ["startup"]
+      }
+    }
+  }
+}

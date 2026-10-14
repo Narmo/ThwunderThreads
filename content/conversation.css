@@ -1,0 +1,267 @@
+/* Thwunderthreads — conversation pane. Colours come from Thunderbird's own
+ * theme variables, so it follows light/dark mode and every platform. */
+
+:root {
+  --wt-page: var(--layout-background-1);
+  --wt-card: var(--layout-background-0);
+  --wt-text: var(--layout-color-1);
+  --wt-muted: var(--layout-color-2);
+  --wt-line: var(--layout-border-0);
+  --wt-hover: color-mix(in srgb, var(--layout-color-1) 5%, var(--wt-card));
+  --wt-radius: 10px;
+
+  font: message-box;
+  font-size: 1rem;
+  color: var(--wt-text);
+  background-color: var(--wt-page);
+}
+
+/* Thunderbird's chrome styles clip the root; the body is the scroller. */
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  overflow: hidden auto;
+}
+
+#conversation {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px 18px 32px;
+}
+
+#header {
+  padding: 4px 6px 14px;
+}
+
+#subject {
+  margin: 0;
+  font-size: 1.45em;
+  font-weight: 500;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+#meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#folders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li {
+    padding: 2px 8px;
+    border-radius: 5px;
+    font-size: 0.85em;
+    color: var(--wt-muted);
+    background-color: var(--layout-background-3);
+  }
+}
+
+#toggleAll {
+  margin: 0;
+  padding: 3px 10px;
+  border: 1px solid var(--wt-line);
+  border-radius: var(--button-border-radius, 4px);
+  font: inherit;
+  font-size: 0.9em;
+  color: var(--wt-muted);
+  background: var(--wt-card);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--wt-text);
+    background: var(--wt-hover);
+  }
+}
+
+#messages {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--wt-line);
+  border-radius: var(--wt-radius);
+  background-color: var(--wt-card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.message {
+  border-top: 1px solid var(--wt-line);
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &.folded {
+    display: none;
+  }
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: auto minmax(8ch, max-content) auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--wt-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-outline-color, AccentColor);
+    outline-offset: -2px;
+  }
+
+  .expanded > & {
+    display: none;
+  }
+}
+
+.avatar {
+  --avatar-hue: 210;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #fff;
+  background-color: hsl(var(--avatar-hue) 45% 46%);
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.from {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .unread & {
+    font-weight: 700;
+  }
+}
+
+.folder:not(:empty) {
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  color: var(--wt-muted);
+  background-color: var(--layout-background-3);
+  white-space: nowrap;
+}
+
+.snippet {
+  color: var(--wt-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icons {
+  display: flex;
+  gap: 4px;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  background-size: 14px;
+  background-repeat: no-repeat;
+  -moz-context-properties: fill, stroke;
+  fill: currentColor;
+  stroke: currentColor;
+  color: var(--wt-muted);
+
+  &.attachment {
+    background-image: var(--icon-attachment);
+  }
+
+  &.starred {
+    background-image: var(--icon-star);
+    fill: var(--color-amber-50, #f5b400);
+    stroke: var(--color-amber-50, #f5b400);
+  }
+}
+
+.date {
+  color: var(--wt-muted);
+  font-size: 0.9em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+
+  .unread & {
+    color: var(--wt-text);
+    font-weight: 600;
+  }
+}
+
+.message-browser {
+  display: block;
+  width: 100%;
+  height: 160px;
+  background-color: var(--wt-card);
+
+  .message:not(.expanded) > & {
+    display: none;
+  }
+}
+
+.more {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+  border-top: 1px solid var(--wt-line);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    border-top: 1px solid var(--wt-line);
+  }
+
+  & button {
+    position: relative;
+    margin: 0;
+    padding: 3px 12px;
+    border: 1px solid var(--wt-line);
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.85em;
+    color: var(--wt-muted);
+    background: var(--wt-card);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--wt-text);
+      background: var(--wt-hover);
+    }
+  }
+}

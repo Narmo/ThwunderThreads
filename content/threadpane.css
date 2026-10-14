@@ -1,0 +1,29 @@
+/* Thwunderthreads — message count next to the participants of a row. */
+
+.wt-count {
+  flex: 0 0 auto;
+  margin-inline-start: 6px;
+  padding: 0 6px;
+  border-radius: 9px;
+  font-size: 0.82em;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--layout-color-2);
+  background-color: var(--layout-background-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Card view: keep the count right after the names and the date on the right. */
+.card-container .sender:has(+ .wt-count) {
+  flex: 0 1 auto;
+}
+
+.card-container .wt-count {
+  margin-inline-end: auto;
+}
+
+tr.selected:focus-within .wt-count,
+[is="tree-view-table-body"]:focus-within > tr.selected .wt-count {
+  color: inherit;
+  background-color: color-mix(in srgb, currentColor 18%, transparent);
+}

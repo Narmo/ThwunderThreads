@@ -1,0 +1,18 @@
+# Generated packages
+/dist/
+*.xpi
+
+# Python bytecode (integration tests)
+__pycache__/
+*.pyc
+
+# macOS metadata
+.DS_Store
+._*
+
+# Local editor settings and temporary files
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
