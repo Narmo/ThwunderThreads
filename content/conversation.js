@@ -508,6 +508,7 @@ function scrollToFocus() {
 
 function clear() {
   clearTimeout(markReadTimer);
+  markReadTimer = null;
   for (const card of cards.values()) {
     unload(card);
   }
@@ -572,16 +573,15 @@ window.wtShow = function (hdrs, options) {
   if (!update) {
     scrollToFocus();
   }
-  markFoldedRead();
+  markConversationRead();
 };
 
-/**
- * Opening a conversation reads all of it, like Gmail. Open messages are
- * marked by their about:message; this takes care of the folded ones, with
- * the same preferences.
- */
-function markFoldedRead() {
-  clearTimeout(markReadTimer);
+/** Read the whole conversation without depending on embedded readers' timers. */
+function markConversationRead() {
+  // Live updates must not restart the configured delay.
+  if (markReadTimer !== null) {
+    return;
+  }
   const tab = host?.tabOrWindow;
   if (
     !Services.prefs.getBoolPref("mailnews.mark_message_read.auto", true) ||
@@ -593,11 +593,21 @@ function markFoldedRead() {
     ? Services.prefs.getIntPref("mailnews.mark_message_read.delay.interval", 0) * 1000
     : 0;
   markReadTimer = setTimeout(() => {
+    markReadTimer = null;
+    if (
+      !Services.prefs.getBoolPref("mailnews.mark_message_read.auto", true) ||
+      !(Window.isInstance(tab) || tab?.selected)
+    ) {
+      return;
+    }
     const unread = [...cards.values()]
-      .filter(c => !c.expanded && !c.hdr.isRead)
+      .filter(c => !c.hdr.isRead)
       .map(c => c.hdr);
     for (const [folder, list] of Map.groupBy(unread, h => h.folder)) {
       folder.markMessagesRead(list, true);
+    }
+    for (const card of cards.values()) {
+      card.li.classList.toggle("unread", !card.hdr.isRead);
     }
   }, delay);
 }

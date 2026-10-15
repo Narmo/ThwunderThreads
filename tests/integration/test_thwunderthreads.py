@@ -176,6 +176,63 @@ class ConversationTests(Base):
         # Opening the conversation marks it read, like Gmail.
         self.js(f"await waitFor(() => hdrOf({q(INBOX_A)}, {q(self.ids['k4'])}).isRead, 'k4 to be read');")
 
+    def test_read_delay_survives_updates_and_card_toggles(self):
+        result = self.js(f"""
+          Services.prefs.setBoolPref("mailnews.mark_message_read.auto", false);
+          await openFolder({q(INBOX_A)});
+          await select({q(self.ids['k4'])});
+          const cw = convWindow();
+          const hdrs = [
+            hdrOf({q(INBOX_A)}, {q(self.ids['k1'])}),
+            hdrOf({q(SENT_A)}, {q(self.ids['k2'])}),
+            hdrOf({q(INBOX_A)}, {q(self.ids['k3'])}),
+            hdrOf({q(INBOX_A)}, {q(self.ids['k4'])}),
+          ];
+          hdrs[0].folder.markMessagesRead([hdrs[0]], false);
+          const li = cw.document.querySelector('li[data-id="{self.ids['k4']}"]');
+          const reader = li.querySelector("browser").contentWindow;
+          // The conversation must not depend on the embedded reader's read callback.
+          reader.autoMarkAsRead = () => {{}};
+          reader.ClearPendingReadTimer();
+          cw.wtShow(hdrs, {{ host: about3(), update: true }});
+          await sleep(200);
+          const disabled = hdrs[0].isRead || hdrs[3].isRead;
+          Services.prefs.setBoolPref("mailnews.mark_message_read.auto", true);
+          Services.prefs.setBoolPref("mailnews.mark_message_read.delay", true);
+          Services.prefs.setIntPref("mailnews.mark_message_read.delay.interval", 1);
+          cw.wtShow(hdrs, {{ host: about3(), update: true }});
+          await sleep(200);
+          const early = hdrs[0].isRead || hdrs[3].isRead;
+          for (let i = 0; i < 14; i++) {{
+            li.querySelector(".summary").click();
+            li.querySelector(".summary").click();
+            cw.document.body.scrollTop = i % 2 ? 100 : 0;
+            cw.wtShow(hdrs, {{ host: about3(), update: true }});
+            await sleep(100);
+          }}
+          const row = [...about3().threadTree.querySelectorAll('tr[is="thread-card"]')]
+            .find(r => about3().gDBView.getMsgHdrAt(r.index).messageId == hdrs[3].messageId);
+          return {{ disabled, early, read: hdrs.every(h => h.isRead),
+            unreadCards: cards().some(c => c.unread),
+            unreadRow: row.dataset.properties.split(" ").includes("unread") }};
+        """)
+        self.assertEqual(result, {"disabled": False, "early": False, "read": True,
+                                  "unreadCards": False, "unreadRow": False})
+
+    def test_leaving_conversation_cancels_read_delay(self):
+        result = self.js(f"""
+          Services.prefs.setBoolPref("mailnews.mark_message_read.delay", true);
+          Services.prefs.setIntPref("mailnews.mark_message_read.delay.interval", 2);
+          await openFolder({q(INBOX_A)});
+          await select({q(self.ids['k4'])});
+          const hdr = hdrOf({q(INBOX_A)}, {q(self.ids['k4'])});
+          const early = hdr.isRead;
+          about3().messagePane.clearAll();
+          await sleep(2300);
+          return {{ early, read: hdr.isRead }};
+        """)
+        self.assertEqual(result, {"early": False, "read": False})
+
     def test_archived_and_sent_messages_are_included(self):
         cards = self.select("l3", INBOX_A)
         self.assertEqual([(self.name(c["id"]), c["folder"]) for c in cards],
