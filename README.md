@@ -56,6 +56,23 @@ Thunderbird → Add-ons and Themes → ⚙ → *Install Add-on From File…*. Th
 add-on uses a WebExtension Experiment (privileged code), which Thunderbird
 allows for add-ons installed from a file.
 
+## Releases
+
+Pushing a `v*` tag runs [the release workflow](.github/workflows/release.yml):
+it checks the tag matches `manifest.json`, runs the unit tests, builds the XPI
+on GitHub, and publishes a Release with the XPI attached and generated release
+notes. It uses GitHub's built-in token; no extra secrets are needed.
+
+Bump `manifest.json` and commit it before tagging, for example:
+
+```sh
+git tag -a v1.0.4 -m "ThwunderThreads 1.0.4"
+git push origin HEAD v1.0.4
+```
+
+The tagged commit must include the workflow. Existing tags do not trigger it
+retroactively. This does not publish to addons.thunderbird.net.
+
 ## Tests
 
 ```sh
