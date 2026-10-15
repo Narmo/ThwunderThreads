@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: "22"
       - name: Test
-        run: node --test tests/unit
+        run: node --test tests/unit/*.test.mjs
       - name: Build XPI
         run: |
           version=$(python3 -c 'import json; print(json.load(open("manifest.json"))["version"])')

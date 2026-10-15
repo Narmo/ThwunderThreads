@@ -80,7 +80,7 @@ This does not publish to addons.thunderbird.net.
 ## Tests
 
 ```sh
-node --test tests/unit                                    # conversation logic
+node --test tests/unit/*.test.mjs                        # conversation logic
 python3 -m unittest discover -s tests/integration -v      # real Thunderbird
 ```
 

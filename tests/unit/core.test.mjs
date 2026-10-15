@@ -1,4 +1,4 @@
-// Unit tests for content/core.mjs. Run: node --test tests/unit
+// Unit tests for content/core.mjs. Run: node --test tests/unit/*.test.mjs
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
