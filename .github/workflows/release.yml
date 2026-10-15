@@ -43,4 +43,4 @@ jobs:
           gh release create "$RELEASE_TAG" \
             "dist/thwunderthreads-${RELEASE_TAG#v}.xpi" \
             --verify-tag --generate-notes \
-            --title "ThwunderThreads ${RELEASE_TAG#v}"
+            --title "$RELEASE_TAG"
