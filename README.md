@@ -70,8 +70,12 @@ git tag -a v1.0.4 -m "ThwunderThreads 1.0.4"
 git push origin HEAD v1.0.4
 ```
 
-The tagged commit must include the workflow. Existing tags do not trigger it
-retroactively. This does not publish to addons.thunderbird.net.
+For automatic releases, the tagged commit must include the workflow. Existing
+tags do not trigger it retroactively. If a tag push produces no run, use
+**Actions → Release → Run workflow**, select `master`, and enter the existing
+tag (for example, `v1.0.4`). The manual run builds that tag, not the latest branch.
+
+This does not publish to addons.thunderbird.net.
 
 ## Tests
 
