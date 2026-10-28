@@ -216,7 +216,9 @@ class Thunderbird:
         self.client = None
 
     def start(self):
-        env = dict(os.environ, MOZ_HEADLESS_WIDTH="1400", MOZ_HEADLESS_HEIGHT="900")
+        # 159 requires the environment opt-in; keep the command-line flag for 158.
+        env = dict(os.environ, MOZ_HEADLESS_WIDTH="1400", MOZ_HEADLESS_HEIGHT="900",
+                   MOZ_REMOTE_ALLOW_SYSTEM_ACCESS="1")
         with open(self.log, "ab") as log:
             self.proc = subprocess.Popen(
                 [THUNDERBIRD, "--headless", "-no-remote", "--marionette",
@@ -321,8 +323,8 @@ class ThunderbirdTestCase(unittest.TestCase):
         # Messages a test deletes on purpose (shift+delete).
         self.purged = set()
         self.tb = Thunderbird(self.profile, port, self.profile / "thunderbird.log")
-        self.tb.start()
         self.addCleanup(self._finish)
+        self.tb.start()
         if self.addon:
             self.tb.js("""
               await waitFor(() => debug().index?.ready, "the conversation index", 60000);

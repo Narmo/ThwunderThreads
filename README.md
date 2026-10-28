@@ -2,7 +2,7 @@
 
 <img src="icons/thwunderthreads.svg" width="64" height="64" alt="ThwunderThreads icon">
 
-Gmail-style conversations for Thunderbird 158.
+Gmail-style conversations for Thunderbird 158–159.
 
 - **One row per conversation** in every message list — folders, the Unified
   Inbox, quick filter results. The row shows the participants
@@ -66,14 +66,14 @@ notes. It uses GitHub's built-in token; no extra secrets are needed.
 Bump `manifest.json` and commit it before tagging, for example:
 
 ```sh
-git tag -a v1.0.4 -m "ThwunderThreads 1.0.4"
-git push origin HEAD v1.0.4
+git tag -a v1.0.5 -m "ThwunderThreads 1.0.5"
+git push origin HEAD v1.0.5
 ```
 
 For automatic releases, the tagged commit must include the workflow. Existing
 tags do not trigger it retroactively. If a tag push produces no run, use
 **Actions → Release → Run workflow**, select `master`, and enter the existing
-tag (for example, `v1.0.4`). The manual run builds that tag, not the latest branch.
+tag (for example, `v1.0.5`). The manual run builds that tag, not the latest branch.
 
 This does not publish to addons.thunderbird.net.
 
@@ -99,10 +99,12 @@ mbox files on disk are parsed: a message that disappeared fails the test.
 
 ## Limits
 
-- Thunderbird 158 only: the add-on reaches into Thunderbird's internals, so
+- Thunderbird 158–159: the add-on reaches into Thunderbird's internals, so
   each new major version needs checking before the cap in `manifest.json`
-  (`strict_max_version`) is raised. Tested on macOS. The pane uses Thunderbird's theme
-  colours and system font, so light/dark mode and other platforms follow.
+  (`strict_max_version`) is raised. Tested on macOS with Thunderbird 159.0,
+  including local mail, IMAP and the 50,000-message stress test. The pane uses
+  Thunderbird's theme colours and system font, so light/dark mode and other
+  platforms follow.
 - Gmail labels are tested with a real IMAP server holding copies in several
   folders, not against Gmail itself.
 - With a quick filter, a conversation is listed when its newest message in the

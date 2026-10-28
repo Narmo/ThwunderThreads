@@ -549,7 +549,8 @@ class CommandTests(Base):
           w.threadPane._onDragStart(event);
           const out = [];
           for (let i = 0; i < dataTransfer.mozItemCount; i++) {{
-            out.push(window.messenger.msgHdrFromURI(dataTransfer.mozGetDataAt("text/x-moz-message", i)).messageId);
+            const uri = dataTransfer.mozGetDataAt("text/x-moz-message", i);
+            out.push(MailServices.messageServiceFromURI(uri).messageURIToMsgHdr(uri).messageId);
           }}
           return out;
         """)

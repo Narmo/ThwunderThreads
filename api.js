@@ -707,7 +707,7 @@ function refreshView(w) {
   }
   const remap = uri => {
     try {
-      const hdr = w.top.messenger.msgHdrFromURI(uri);
+      const hdr = MailServices.messageServiceFromURI(uri).messageURIToMsgHdr(uri);
       const rec = index.recs.get(hdr.messageId);
       const root = rec && index.find(rec);
       const head = root && index.head(root, ctx);
@@ -1284,10 +1284,11 @@ function patchCommands(w, state) {
         return;
       }
       const dt = event.dataTransfer;
-      const first = dt.mozItemCount
-        ? w.top.messenger.msgHdrFromURI(
-            dt.mozGetDataAt("text/x-moz-message", 0)
-          )
+      const firstURI = dt.mozItemCount
+        ? dt.mozGetDataAt("text/x-moz-message", 0)
+        : null;
+      const first = firstURI
+        ? MailServices.messageServiceFromURI(firstURI).messageURIToMsgHdr(firstURI)
         : null;
       let n = dt.mozItemCount;
       for (const h of hiddenSiblings(w)) {
