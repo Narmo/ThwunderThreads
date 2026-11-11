@@ -66,14 +66,14 @@ notes. It uses GitHub's built-in token; no extra secrets are needed.
 Bump `manifest.json` and commit it before tagging, for example:
 
 ```sh
-git tag -a v1.0.5 -m "ThwunderThreads 1.0.5"
-git push origin HEAD v1.0.5
+git tag -a v1.1.0 -m "ThwunderThreads 1.1.0"
+git push origin HEAD v1.1.0
 ```
 
 For automatic releases, the tagged commit must include the workflow. Existing
 tags do not trigger it retroactively. If a tag push produces no run, use
 **Actions → Release → Run workflow**, select `master`, and enter the existing
-tag (for example, `v1.0.5`). The manual run builds that tag, not the latest branch.
+tag (for example, `v1.1.0`). The manual run builds that tag, not the latest branch.
 
 This does not publish to addons.thunderbird.net.
 
