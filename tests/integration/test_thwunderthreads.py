@@ -408,7 +408,7 @@ class CommandTests(Base):
         self.assertNotIn("k4", self.heads(INBOX_A))
         self.assertNotIn("k1", self.heads(INBOX_A))
         # Undo brings it all back.
-        self.js("window.messenger.undo(window.msgWindow);")
+        self.js("goDoCommand('cmd_undo');")
         self.wait_where({"k1": ["me@pop.example.com/Inbox"], "k3": ["me@pop.example.com/Inbox"],
                          "k4": ["me@pop.example.com/Inbox"], "k2": ["me@pop.example.com/Sent"]})
         self.assertIn("k4", self.heads(INBOX_A))
@@ -429,7 +429,7 @@ class CommandTests(Base):
         self.js('about3().commandController.doCommand("cmd_deleteMessage");')
         trash = ["me@pop.example.com/Trash"]
         self.wait_where({"k1": trash, "k2": trash, "k3": trash, "k4": trash})
-        self.js("window.messenger.undo(window.msgWindow); await sleep(1500); window.messenger.undo(window.msgWindow);")
+        self.js("goDoCommand('cmd_undo'); await sleep(1500); goDoCommand('cmd_undo');")
         inbox = ["me@pop.example.com/Inbox"]
         self.wait_where({"k1": inbox, "k3": inbox, "k4": inbox, "k2": ["me@pop.example.com/Sent"]})
         self.assertIn("k4", self.heads(INBOX_A))
@@ -440,7 +440,7 @@ class CommandTests(Base):
         arch = ["me@pop.example.com/Archives"]
         # The unified inbox lists Inbox messages: r5, r7, r9 (work account).
         self.wait_where({"r5": arch, "r7": arch, "r9": arch})
-        self.js("window.messenger.undo(window.msgWindow);")
+        self.js("goDoCommand('cmd_undo');")
         inbox = ["me@pop.work.test/Inbox"]
         self.wait_where({"r5": inbox, "r7": inbox, "r9": inbox})
 

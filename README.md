@@ -2,7 +2,7 @@
 
 <img src="icons/thwunderthreads.svg" width="64" height="64" alt="ThwunderThreads icon">
 
-Gmail-style conversations for Thunderbird 158–159.
+Gmail-style conversations for Thunderbird 158–160.
 
 - **One row per conversation** in every message list — folders, the Unified
   Inbox, quick filter results. The row shows the participants
@@ -99,9 +99,9 @@ mbox files on disk are parsed: a message that disappeared fails the test.
 
 ## Limits
 
-- Thunderbird 158–159: the add-on reaches into Thunderbird's internals, so
+- Thunderbird 158–160: the add-on reaches into Thunderbird's internals, so
   each new major version needs checking before the cap in `manifest.json`
-  (`strict_max_version`) is raised. Tested on macOS with Thunderbird 159.0,
+  (`strict_max_version`) is raised. Tested on macOS with Thunderbird 160.0,
   including local mail, IMAP and the 50,000-message stress test. The pane uses
   Thunderbird's theme colours and system font, so light/dark mode and other
   platforms follow.
