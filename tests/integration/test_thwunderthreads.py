@@ -395,6 +395,11 @@ class CommandTests(Base):
             if text:
                 alerts.append(text)
             time.sleep(0.25)
+        # 161 reports it in the Activity Manager instead of an alert.
+        alerts += self.js("""
+          const am = Cc["@mozilla.org/activity-manager;1"].getService(Ci.nsIActivityManager);
+          return am.getActivities().filter(a => a instanceof Ci.nsIActivityWarning).map(a => a.displayText);
+        """)
         self.assertTrue(alerts, "Thunderbird reports the failed move")
         where = self.where()
         self.assertEqual(where["lab2"], sorted(
